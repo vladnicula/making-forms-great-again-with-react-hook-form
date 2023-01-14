@@ -60,15 +60,16 @@ const formSchema = z
 
 type UsernameFromType = z.infer<typeof formSchema>;
 
-interface UsernameFormBStyledProps {
+interface SignUpFormProps {
   onSubmit: (data: UsernameFromType) => Promise<unknown>;
+  isValidUserName: (input: string) => Promise<boolean>;
 }
 
 const DefaultValues = {
   username: "",
   password: ""
 };
-export const SignUpForm = (props: UsernameFormBStyledProps) => {
+export const SignUpForm = (props: SignUpFormProps) => {
   const {
     control,
     register,
@@ -108,6 +109,7 @@ export const SignUpForm = (props: UsernameFormBStyledProps) => {
         error={errors.email?.message}
       />
       <UserNameFieldContainer
+        isValidUserName={props.isValidUserName}
         fieldSchema={usernameSchema}
         control={control}
         name="username"

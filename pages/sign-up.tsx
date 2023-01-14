@@ -5,5 +5,16 @@ export default () => {
     console.log(`handleValidSubmit`, data);
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
-  return <SignUpForm onSubmit={handleValidSubmit} />;
+
+  const checkUserNameAvailability = async(username: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return username.toLowerCase() !== "bob";
+  }
+
+  return (
+  <SignUpForm
+    isValidUserName={checkUserNameAvailability}
+     onSubmit={handleValidSubmit} 
+    />
+    );
 };

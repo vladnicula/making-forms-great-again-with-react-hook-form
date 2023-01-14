@@ -9,7 +9,7 @@ export default () => (
   <div>
     Hello World. <Thing msg="hello" />
     <Link href="/sign-up">
-      <a>Sign Up</a>
+      Sign Up
     </Link>
   </div>
 );
