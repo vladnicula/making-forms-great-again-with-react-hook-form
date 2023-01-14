@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button, Form } from "react-daisyui"
 
 import { TextField } from "../components/form/TextField"
+import { forwardRef, useImperativeHandle } from "react"
 // import { UserNameFieldContainer } from "./UserNameField/UserNameFieldContainer"
 
 // const usernameSchema = z.string().superRefine((input, ctx) => {
@@ -69,9 +70,16 @@ const DefaultValues = {
     username: "",
     password: ""
 }
-export const SignUpForm = (props: SignUpFormProps) => {
+
+export interface SignUpFormRefApi {
+    setFieldError: (fieldName:string, errorMessage: string) => boolean
+    setFieldErrors: (errors: Record<keyof SignUpFormType, string>) => void
+}
+
+export const SignUpForm = forwardRef<SignUpFormRefApi, SignUpFormProps>((props, ref) => {
     const {
         // control,
+        setError,
         register,
         handleSubmit,
         formState: { errors, isSubmitting }
@@ -85,6 +93,25 @@ export const SignUpForm = (props: SignUpFormProps) => {
     //   // console.log("validation result", result.values, result.errors);
     //   return result;
     // }
+    })
+
+    useImperativeHandle(ref, () => {
+        const setFieldError = (fieldName: string, errorMessage: string) => {
+            setError(fieldName as keyof SignUpFormType, {
+                message: errorMessage
+            })
+            return true
+        }
+        return {
+            setFieldError,
+
+            setFieldErrors: (errors: Record<keyof SignUpFormType, string>) => {
+                Object.keys(errors).forEach((key) => {
+                    const typesafeKey = key as keyof SignUpFormType
+                    setFieldError(typesafeKey, errors[typesafeKey])
+                })
+            }
+        }
     })
 
     console.log("form component function ran", isSubmitting)
@@ -134,4 +161,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
             </Button>
         </Form>
     )
-}
+})
+
+
+SignUpForm.displayName = 'ForwardRefSignUpForm'

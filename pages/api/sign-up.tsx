@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).json({
             success: false,
             errors: {
-                "email": "NOT_AVAILABLE"
+                "email": "email not available"
             }
         })
     }

@@ -1,8 +1,12 @@
 import { useRouter } from 'next/router'
-import { SignUpForm, SignUpFormType } from "../src/SignUpForm/SignUpForm"
+import { useRef } from 'react'
+import { SignUpForm, SignUpFormType, SignUpFormRefApi } from "../src/SignUpForm/SignUpForm"
 
 export default function SignUpPage () {
     const router = useRouter()
+
+    const signupFormRef = useRef<SignUpFormRefApi>(null)
+
     const handleValidSubmit = async (data: SignUpFormType) => {
         const httpResponse = await fetch('/api/sign-up', {
             method:"POST",
@@ -22,8 +26,8 @@ export default function SignUpPage () {
             errors: Record<string, string>
         }
 
-        if ( !jsonResponse.success ) {
-            console.log("handle server errors")
+        if ( !jsonResponse.success && jsonResponse.errors ) {
+            signupFormRef.current?.setFieldErrors(jsonResponse.errors)
             return
         }
 
@@ -38,6 +42,7 @@ export default function SignUpPage () {
 
     return (
         <SignUpForm
+            ref={signupFormRef}
             isValidUserName={checkUserNameAvailability}
             onSubmit={handleValidSubmit} 
         />
