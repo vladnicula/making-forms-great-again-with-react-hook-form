@@ -58,10 +58,10 @@ const formSchema = z
         }
     )
 
-type UsernameFromType = z.infer<typeof formSchema>;
+export type SignUpFormType = z.infer<typeof formSchema>;
 
 interface SignUpFormProps {
-  onSubmit: (data: UsernameFromType) => Promise<unknown>;
+  onSubmit: (data: SignUpFormType) => Promise<unknown>;
   isValidUserName: (input: string) => Promise<boolean>;
 }
 
@@ -75,7 +75,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
         register,
         handleSubmit,
         formState: { errors, isSubmitting }
-    } = useForm<UsernameFromType>({
+    } = useForm<SignUpFormType>({
         defaultValues: DefaultValues,
         resolver: zodResolver(formSchema)
     // resolver: async (data, context, options) => {
