@@ -1,12 +1,12 @@
 import {
-  FieldValues,
-  Control,
-  Path,
-  PathValue,
-  Controller
-} from "react-hook-form";
-import { z } from "zod";
-import { UserNameField } from "./UserNameField";
+    FieldValues,
+    Control,
+    Path,
+    PathValue,
+    Controller
+} from "react-hook-form"
+import { z } from "zod"
+import { UserNameField } from "./UserNameField"
 
 interface UsernameFieldContinerProps<T extends FieldValues> {
   control: Control<T, any>;
@@ -16,20 +16,20 @@ interface UsernameFieldContinerProps<T extends FieldValues> {
 }
 
 export const UserNameFieldContainer = <T extends FieldValues>(
-  props: UsernameFieldContinerProps<T>
+    props: UsernameFieldContinerProps<T>
 ) => {
-  return (
-    <Controller
-      name={props.name}
-      control={props.control}
-      render={({ field, fieldState }) => (
-        <UserNameField
-          field={field}
-          fieldState={fieldState}
-          fieldSchema={props.fieldSchema}
-          isValidUserName={props.isValidUserName}
+    return (
+        <Controller
+            name={props.name}
+            control={props.control}
+            render={({ field, fieldState }) => (
+                <UserNameField
+                    field={field}
+                    fieldState={fieldState}
+                    fieldSchema={props.fieldSchema}
+                    isValidUserName={props.isValidUserName}
+                />
+            )}
         />
-      )}
-    />
-  );
-};
+    )
+}
