@@ -5,6 +5,7 @@ export default function SignUpPage () {
     const router = useRouter()
     const handleValidSubmit = async (data: unknown) => {
         console.log(`handleValidSubmit`, data)
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         router.replace('/')
         await new Promise((resolve) => setTimeout(resolve, 1000))
     }
