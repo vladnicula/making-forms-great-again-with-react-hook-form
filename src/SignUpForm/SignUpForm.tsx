@@ -4,7 +4,7 @@ import { TextField } from "../components/TextField/TextField"
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import * as z from 'zod'
-import { forwardRef, useImperativeHandle } from "react"
+import { forwardRef, useImperativeHandle, useRef } from "react"
 
 
 const SignUpFormSchema = z.object({
@@ -34,19 +34,22 @@ export const SignUpForm = forwardRef<SignUpFormAPI, SignUpFormProps>((props, ref
         resolver: zodResolver(SignUpFormSchema)
     })
 
+    const setErrorRef = useRef(setError)
+    setErrorRef.current = setError
+
     useImperativeHandle(ref, () => {
         return {
             setErrors: (data: Record<string, string>) => {
                 Object.keys(data).forEach((key) => {
                     const typesafeKey = key as keyof SignUpValues
-                    setError(typesafeKey, {
+                    setErrorRef.current(typesafeKey, {
                         message: data[typesafeKey],
                         type: "custom"
                     })
                 })
             }
         }
-    })
+    }, [])
 
     return (
         <form
